@@ -36,6 +36,37 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+app.post("/login", async (req, res) => {
+  try {
+    const { emailId, password } = req.body;
+
+    if (!emailId || !password) {
+      return res.status(400).send("Please provide your login details");
+    }
+
+    const isValidEmailFormat = validator.isEmail(emailId);
+
+    if (!isValidEmailFormat) {
+      return res.status(400).send("Invalid Email Format");
+    }
+
+    const isUserPresent = await User.findOne({ emailId: emailId });
+    if (!isUserPresent) {
+      res.status(400).send("Invalid login details");
+    } else {
+      isPasswordValid = await bcrypt.compare(password, isUserPresent.password);
+      if (!isPasswordValid) {
+        return res.status(400).send("Invalid Login Details");
+      }
+      res.status(200).send("Logged in now");
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Something went wrong, please try again later" });
+  }
+});
+
 connectToDatabase()
   .then(() => {
     console.log("connection Made");
