@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 var cors = require("cors");
 const bcrypt = require("bcrypt");
+const validator = require("validator");
 
 const { connectToDatabase } = require("./config/database");
 const User = require("./models/userModel");
@@ -9,20 +10,29 @@ const User = require("./models/userModel");
 app.use(express.json());
 app.use(cors());
 
-app.post("/signup", async(req, res) => {
+app.post("/signup", async (req, res) => {
   const { firstName, lastName, emailId, password } = req.body;
   try {
-    const securePassword = await bcrypt.hash(password,10); 
+    const isPasswordStrong = validator.isStrongPassword(password);
+    if (!isPasswordStrong) {
+      return res.status(400).send("Please select a strong password");
+    }
+    const doesUserExist = await User.findOne({ emailId: emailId });
+    if (doesUserExist) {
+      return res.status(400).send("Email already in use");
+    }
+
+    const securePassword = await bcrypt.hash(password, 10);
     const user = new User({
-        firstName,
-        lastName,
-        emailId,
-        password:securePassword
+      firstName,
+      lastName,
+      emailId,
+      password: securePassword,
     });
-    await user.save()
-    res.status(200).send("Account created")
+    await user.save();
+    res.status(200).send("Account created");
   } catch (error) {
-    res.status(500).send("Error" +" " + error.message);
+    res.status(500).send("Error" + " " + error.message);
   }
 });
 

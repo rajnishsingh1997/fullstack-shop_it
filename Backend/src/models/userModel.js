@@ -29,9 +29,6 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      validate: function (value) {
-        return validator.isStrongPassword(value);
-      },
     },
   },
   { timestamps: true }
