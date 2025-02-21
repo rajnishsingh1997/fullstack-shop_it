@@ -6,7 +6,7 @@ const validator = require("validator");
 
 const { connectToDatabase } = require("./config/database");
 const User = require("./models/userModel");
-
+const Product = require("./models/productMode");
 app.use(express.json());
 app.use(cors());
 
@@ -60,6 +60,20 @@ app.post("/login", async (req, res) => {
       }
       res.status(200).send("Logged in now");
     }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Something went wrong, please try again later" });
+  }
+});
+
+app.get("/products", async (req, res) => {
+  try {
+    const products = await Product.find({});
+    if (!products) {
+      res.status(400).send("Something went wrong");
+    }
+    res.status(200).send(products);
   } catch (error) {
     res
       .status(500)
