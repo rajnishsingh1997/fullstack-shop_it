@@ -1,4 +1,4 @@
-const URI = 'mongodb+srv://rajnish:Z3AxEOkXmvMBZr7B@cluster-1.ophup.mongodb.net/ShopIt?retryWrites=true&w=majority&appName=Cluster-1'; 
+const URI = 'mongodb+srv://rajnish:Qwerty123*@cluster0.3meztln.mongodb.net/ShopIt?retryWrites=true&w=majority&appName=Cluster0'
 const mongoose = require('mongoose'); 
 
 const connectToDatabase =async(url)=>{
