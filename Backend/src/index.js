@@ -61,7 +61,7 @@ app.post("/login", async (req, res) => {
         return res.status(400).send("Invalid Login Details");
       }
       const token = jwt.sign(isUserPresent?.id,"Qwerty123*")
-      res.cookies("authToken" , token)
+      res.cookie("authToken" , token)
       res.status(200).send("Logged In")
     }
   } catch (error) {
@@ -115,10 +115,6 @@ app.get("/products/category/:id",async(req,res)=>{
     .status(500)
     .json({ error: "Something went wrong, please try again later" });
   }
-})
-
-app.get("/admin",userCheckMiddleware,(req,res)=>{
-  res.send("something!!")
 })
 
 connectToDatabase()
