@@ -3,12 +3,15 @@ const app = express();
 var cors = require("cors");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
-
+const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken');
 const { connectToDatabase } = require("./config/database");
 const User = require("./models/userModel");
 const Product = require("./models/productMode");
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser())
+const{userCheckMiddleware} = require("./Middleware/authMiddle")
 
 app.post("/signup", async (req, res) => {
   const { firstName, lastName, emailId, password } = req.body;
@@ -39,7 +42,6 @@ app.post("/signup", async (req, res) => {
 app.post("/login", async (req, res) => {
   try {
     const { emailId, password } = req.body;
-
     if (!emailId || !password) {
       return res.status(400).send("Please provide your login details");
     }
@@ -58,9 +60,12 @@ app.post("/login", async (req, res) => {
       if (!isPasswordValid) {
         return res.status(400).send("Invalid Login Details");
       }
-      res.status(200).send("Logged in now");
+      const token = jwt.sign(isUserPresent?.id,"Qwerty123*")
+      res.cookies("authToken" , token)
+      res.status(200).send("Logged In")
     }
   } catch (error) {
+
     res
       .status(500)
       .json({ error: "Something went wrong, please try again later" });
@@ -112,13 +117,18 @@ app.get("/products/category/:id",async(req,res)=>{
   }
 })
 
+app.get("/admin",userCheckMiddleware,(req,res)=>{
+  res.send("something!!")
+})
+
 connectToDatabase()
   .then(() => {
     console.log("connection Made");
-    app.listen(3000, () => {
+    app.listen(4000, () => {
       console.log("server started");
     });
   })
   .catch((err) => {
     console.log(err);
   });
+
