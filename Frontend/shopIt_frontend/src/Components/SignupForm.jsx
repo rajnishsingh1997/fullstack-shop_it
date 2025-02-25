@@ -29,8 +29,7 @@ const SignupForm = () => {
     }
     const strongPasswordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-      if (!strongPasswordRegex.test(password)) {
-        console.log("here")
+    if (!strongPasswordRegex.test(password)) {
       setError("Please choose a strong password");
       return;
     }
