@@ -3,8 +3,7 @@ import LoginForm from "../Components/LoginForm";
 
 const LoginPage = () => {
   return (
-    <div>
-      <h1>Login page</h1>
+    <div className="bg-[url(/background_image.jpg)] w-full h-screen bg-center bg-no-repeat bg-cover">
       <LoginForm />
     </div>
   );
