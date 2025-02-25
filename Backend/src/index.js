@@ -33,9 +33,15 @@ app.post("/signup", async (req, res) => {
       password: securePassword,
     });
     await user.save();
-    res.status(200).send("Account created");
+    res.status(200).json({
+      user,
+      message:"Account created"
+    });
   } catch (error) {
-    res.status(500).send("Error" + " " + error.message);
+    res.status(500).json({
+      data:error.message,
+      message:"Failed"
+    })
   }
 });
 
@@ -62,7 +68,10 @@ app.post("/login", async (req, res) => {
       }
       const token = jwt.sign(isUserPresent?.id,"Qwerty123*")
       res.cookie("authToken" , token)
-      res.status(200).send("Logged In")
+      res.status(200).json({
+        data:isUserPresent,
+        message:"User can login now"
+      })
     }
   } catch (error) {
 
