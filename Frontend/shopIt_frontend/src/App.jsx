@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router";
 import "./App.css";
 import LoginPage from "./Pages/loginPage";
 import SignupPage from "./Pages/SignupPage";
+
 function App() {
   return (
     <div>
-    <SignupPage/>
+      <Routes>
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
     </div>
   );
 }
