@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { NavLink } from "react-router";
+import {useNavigate} from 'react-router-dom'
 
 const LoginForm = () => {
   const [loginDetail, setLoginDetail] = useState({
@@ -10,6 +11,7 @@ const LoginForm = () => {
 
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
   const handleInputChange = (e) => {
     setLoginDetail({
@@ -26,6 +28,7 @@ const LoginForm = () => {
       );
       if (response.status === 200) {
         setUser(response?.data?.data);
+        navigate('/')
       } else {
         throw new Error("Unable to Login");
       }
