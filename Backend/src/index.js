@@ -3,83 +3,21 @@ const app = express();
 var cors = require("cors");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
-const cookieParser = require('cookie-parser')
-const jwt = require('jsonwebtoken');
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
 const { connectToDatabase } = require("./config/database");
 const User = require("./models/userModel");
 const Product = require("./models/productMode");
 app.use(express.json());
 app.use(cors());
-app.use(cookieParser())
-const{userCheckMiddleware} = require("./Middleware/authMiddle")
+app.use(cookieParser());
+const { userCheckMiddleware } = require("./Middleware/authMiddle");
 
-app.post("/signup", async (req, res) => {
-  const { firstName, lastName, emailId, password } = req.body;
-  try {
-    const isPasswordStrong = validator.isStrongPassword(password);
-    if (!isPasswordStrong) {
-      return res.status(400).send("Please select a strong password");
-    }
-    const doesUserExist = await User.findOne({ emailId: emailId });
-    if (doesUserExist) {
-      return res.status(400).send("Email already in use");
-    }
+const authRouter = require("./routes/auth"); 
+app.use("/", authRouter)
 
-    const securePassword = await bcrypt.hash(password, 10);
-    const user = new User({
-      firstName,
-      lastName,
-      emailId,
-      password: securePassword,
-    });
-    await user.save();
-    res.status(200).json({
-      user,
-      message:"Account created"
-    });
-  } catch (error) {
-    res.status(500).json({
-      data:error.message,
-      message:"Failed"
-    })
-  }
-});
 
-app.post("/login", async (req, res) => {
-  try {
-    const { emailId, password } = req.body;
-    if (!emailId || !password) {
-      return res.status(400).send("Please provide your login details");
-    }
 
-    const isValidEmailFormat = validator.isEmail(emailId);
-
-    if (!isValidEmailFormat) {
-      return res.status(400).send("Invalid Email Format");
-    }
-
-    const isUserPresent = await User.findOne({ emailId: emailId });
-    if (!isUserPresent) {
-      res.status(400).send("Invalid login details");
-    } else {
-      isPasswordValid = await bcrypt.compare(password, isUserPresent.password);
-      if (!isPasswordValid) {
-        return res.status(400).send("Invalid Login Details");
-      }
-      const token = jwt.sign(isUserPresent?.id,"Qwerty123*")
-      res.cookie("authToken" , token)
-      res.status(200).json({
-        data:isUserPresent,
-        message:"User can login now"
-      })
-    }
-  } catch (error) {
-
-    res
-      .status(500)
-      .json({ error: "Something went wrong, please try again later" });
-  }
-});
 
 app.get("/products", async (req, res) => {
   try {
@@ -107,24 +45,24 @@ app.get("/categories", async (req, res) => {
   }
 });
 
-app.get("/products/category/:id",async(req,res)=>{
+app.get("/products/category/:id", async (req, res) => {
   const category = req?.params;
-  const {id} = category; 
-  if(!category){
-    return res.status(500).send("something went wrong!") 
+  const { id } = category;
+  if (!category) {
+    return res.status(500).send("something went wrong!");
   }
   try {
-    const product = await Product.find({category:id})
-    if(product.length===0){
-      res.status(400).send("unable to find any product")
+    const product = await Product.find({ category: id });
+    if (product.length === 0) {
+      res.status(400).send("unable to find any product");
     }
-    res.status(200).send(product)
+    res.status(200).send(product);
   } catch (error) {
     res
-    .status(500)
-    .json({ error: "Something went wrong, please try again later" });
+      .status(500)
+      .json({ error: "Something went wrong, please try again later" });
   }
-})
+});
 
 connectToDatabase()
   .then(() => {
@@ -136,4 +74,3 @@ connectToDatabase()
   .catch((err) => {
     console.log(err);
   });
-
