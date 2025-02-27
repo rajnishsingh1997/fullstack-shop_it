@@ -5,8 +5,8 @@ import {useNavigate} from 'react-router-dom'
 
 const LoginForm = () => {
   const [loginDetail, setLoginDetail] = useState({
-    emailId: "",
-    password: "",
+    emailId: "ManishaSingh@gmail.com",
+    password: "Manisha@123",
   });
 
   const [user, setUser] = useState();
