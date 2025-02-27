@@ -2,7 +2,7 @@ const express = require("express");
 const validator = require("validator");
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken"); 
+const jwt = require("jsonwebtoken");
 
 const authRoute = express.Router();
 
@@ -67,11 +67,16 @@ authRoute.post("/login", async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res
       .status(500)
       .json({ error: "Something went wrong, please try again later" });
   }
+});
+
+authRoute.post("/logout", (req, res) => {
+  res.cookie("authToken", null, { expires: new Date(Date.now()) });
+  res.status(200).send("Logout successfull");
 });
 
 module.exports = authRoute;
