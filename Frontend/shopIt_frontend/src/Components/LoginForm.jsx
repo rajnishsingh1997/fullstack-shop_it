@@ -22,7 +22,7 @@ const LoginForm = () => {
     try {
       const response = await axios.post(
         "http://localhost:4000/login",
-        loginDetail
+        loginDetail ,  { withCredentials: true }
       );
       if (response.status === 200) {
         setUser(response?.data?.data);

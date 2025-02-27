@@ -6,17 +6,16 @@ const { connectToDatabase } = require("./config/database");
 const authRouter = require("./routes/auth");
 const productAuth = require("./routes/product");
 
-
 app.use(express.json());
-app.use(cors());
-app.use(cookieParser()); 
-app.use("/", authRouter)
-app.use("/" , productAuth);
-
-
-
-
-
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+app.use(cookieParser());
+app.use("/", authRouter);
+app.use("/", productAuth);
 
 connectToDatabase()
   .then(() => {

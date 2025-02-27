@@ -60,7 +60,7 @@ authRoute.post("/login", async (req, res) => {
         return res.status(400).send("Invalid Login Details");
       }
       const token = jwt.sign(isUserPresent?.id, "Qwerty123*");
-      res.cookie("authToken", token);
+      res.cookie("authToken", token , { expires: new Date(Date.now() + 900000)});
       res.status(200).json({
         data: isUserPresent,
         message: "User can login now",
