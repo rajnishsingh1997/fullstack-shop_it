@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { NavLink } from "react-router";
 
 const LoginForm = () => {
   const [loginDetail, setLoginDetail] = useState({
@@ -71,6 +72,13 @@ const LoginForm = () => {
             Login
           </button>
         </div>
+        <NavLink to="/signup" end>
+          <div>
+            <p className="text-sm cursor-pointer">
+            Not registered? Sign up now
+            </p>
+          </div>
+        </NavLink>
       </div>
     </div>
   );

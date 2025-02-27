@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { NavLink } from "react-router";
 
 const SignupForm = () => {
   const [loading, setLoading] = useState(false);
@@ -94,6 +95,13 @@ const SignupForm = () => {
             {loading ? "Signing Up..." : "Signup"}
           </button>
         </div>
+        <NavLink to="/login" end>
+          <div>
+            <p className="text-sm cursor-pointer">
+              Already have account? Login now
+            </p>
+          </div>
+        </NavLink>
 
         {error && (
           <div className="mt-3 text-center text-red-600 text-sm animate-fade-in">
