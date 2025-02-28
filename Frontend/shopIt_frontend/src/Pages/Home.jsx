@@ -23,9 +23,12 @@ const Home = () => {
 
   async function getProduct() {
     try {
-      const response = await axios.get("http://localhost:4000/products", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        `http://localhost:4000/products?categories=${selectedCategories}`,
+        {
+          withCredentials: true,
+        }
+      );
       if (response.status === 200) {
         setProduct(response?.data);
       }
@@ -35,7 +38,7 @@ const Home = () => {
   }
   useEffect(() => {
     getProduct();
-  }, []);
+  }, [selectedCategories]);
   useEffect(() => {
     getCategories();
   }, []);
@@ -43,7 +46,10 @@ const Home = () => {
   return (
     <div className="flex flex-col gap-2">
       <Header />
-      <Categories categories={categories} />
+      <Categories
+        categories={categories}
+        setSelectedCategories={setSelectedCategories}
+      />
       <ProductListing product={product} />
     </div>
   );
