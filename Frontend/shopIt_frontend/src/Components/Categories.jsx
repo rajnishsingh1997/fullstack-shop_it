@@ -1,26 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-
-const Categories = () => {
-  const [categories, setCategories] = useState([]);
-
-  async function getCategories() {
-    try {
-      const response = await axios.get("http://localhost:4000/categories", {
-        withCredentials: true,
-      });
-      if (response.status === 200) {
-        setCategories(response?.data);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  useEffect(() => {
-    getCategories();
-  }, []);
-  if (categories.length === 0) return;
-
+const Categories = ({ categories = [] }) => {
   return (
     <div className="flex justify-center items-center mt-5">
       <div className="flex flex-wrap gap-4">
