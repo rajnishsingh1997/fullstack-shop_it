@@ -11,7 +11,7 @@ productAuth.get("/products", userCheckMiddleware, async (req, res) => {
       res.status(200).send(specificProduct);
     } else {
       const products = await Product.find({});
-      if (products.length===0) {
+      if (products.length === 0) {
         res.status(400).send("Something went wrong");
       }
       res.status(200).send(products);
@@ -35,26 +35,12 @@ productAuth.get("/categories", userCheckMiddleware, async (req, res) => {
   }
 });
 
-// productAuth.get("/product/categories", async (req, res) => {
-//   try {
-//     const { categories } = req.query;
-//     if (!categories) {
-//       throw new Error("Something went wrong!");
-//     }
-//     const product = await Product.find({ category: categories });
-//     if (product.length === 0) {
-//       return res
-//         .status(404)
-//         .json({ error: "No products found for this category" });
-//     }
-//     res.status(200).send(product);
-//   } catch (error) {
-//     console.log(error);
-//     res
-//       .status(500)
-//       .json({ error: "Something went wrong, please try again later" });
-//   }
-// });
+productAuth.get("/productDetail/:id", (req, res) => {
+  const id = req.params;
+  res.status(200).json({
+    data: "You have hit the api",
+    message: "OK",
+  });
+});
 
 module.exports = productAuth;
-

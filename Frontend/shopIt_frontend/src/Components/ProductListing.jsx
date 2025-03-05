@@ -2,6 +2,7 @@ import React from "react";
 import ProductCard from "./ProductCard";
 
 const ProductListing = ({ product }) => {
+  
   return (
     <div>
       <div className="flex flex-wrap justify-center gap-4">

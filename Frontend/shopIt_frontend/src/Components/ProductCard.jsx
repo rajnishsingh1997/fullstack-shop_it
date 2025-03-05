@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { FaStar, FaRegStar, FaHeart } from "react-icons/fa";
 import StarComponent from "./StarComponent";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ singleProduct }) => {
   const [rating, setRating] = useState(0);
+  const navigate = useNavigate();
 
   const handleRedirectToProductDetail = () => {
-  
+    navigate(`/productDetail/${singleProduct.id}`);
   };
 
   useEffect(() => {
