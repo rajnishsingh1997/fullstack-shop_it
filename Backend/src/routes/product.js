@@ -35,12 +35,29 @@ productAuth.get("/categories", userCheckMiddleware, async (req, res) => {
   }
 });
 
-productAuth.get("/productDetail/:id", (req, res) => {
-  const id = req.params;
-  res.status(200).json({
-    data: "You have hit the api",
-    message: "OK",
-  });
+productAuth.get("/productDetail/:id", userCheckMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.send(400).json({
+        message: "Product id is required",
+      });
+    }
+    const productWithId = await Product.findOne({ id });
+    if (!productWithId) {
+      return res.status(400).json({
+        message: "Unable to find any product with this id",
+      });
+    }
+    res.status(200).json({
+      productWithId,
+      message: "Product found",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error" + " " + error.message,
+    });
+  }
 });
 
 module.exports = productAuth;

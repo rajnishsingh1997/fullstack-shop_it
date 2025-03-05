@@ -15,27 +15,30 @@ const ProductCard = ({ singleProduct }) => {
     setRating(singleProduct?.rating.rate);
   }, []);
   return (
-    <div
-      onClick={handleRedirectToProductDetail}
-      className="bg-white shadow-md rounded-lg cursor-pointer overflow-hidden w-64"
-    >
-      <img
-        src={singleProduct.image}
-        alt={singleProduct.name}
-        className="w-full h-72 object-contain
+    <div className="bg-white shadow-md rounded-lg  overflow-hidden w-64">
+      <div>
+        <div className="cursor-pointer" onClick={handleRedirectToProductDetail}>
+          <img
+            src={singleProduct.image}
+            alt={singleProduct.name}
+            className="w-full h-72 object-contain
 "
-      />
-      <div className="p-4">
-        <h3 className="font-bold text-lg">{singleProduct.name}</h3>
-        <p className="text-gray-600 text-sm truncate">
-          {singleProduct.description}
-        </p>
-        <div className="flex justify-between items-center gap-2 mt-2">
-          <span className="text-lg font-semibold">${singleProduct.price}</span>
-          {<StarComponent starValue={rating} />}
+          />
         </div>
-        <div className="flex items-center mt-2">{}</div>
-        <div className="flex items-center justify-between mt-4">
+
+        <div className="p-4">
+          <h3 className="font-bold text-lg">{singleProduct.name}</h3>
+          <p className="text-gray-600 text-sm truncate">
+            {singleProduct.description}
+          </p>
+          <div className="flex justify-between items-center gap-2 mt-2">
+            <span className="text-lg font-semibold">
+              ${singleProduct.price}
+            </span>
+            {<StarComponent starValue={rating} />}
+          </div>
+        </div>
+        <div className="flex items-center justify-between py-2 px-2">
           <button className="p-2 border rounded-full text-pink-500 hover:bg-pink-100">
             <FaHeart />
           </button>
