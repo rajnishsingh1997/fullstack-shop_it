@@ -5,11 +5,18 @@ import StarComponent from "./StarComponent";
 const ProductCard = ({ singleProduct }) => {
   const [rating, setRating] = useState(0);
 
+  const handleRedirectToProductDetail = () => {
+  
+  };
+
   useEffect(() => {
     setRating(singleProduct?.rating.rate);
   }, []);
   return (
-    <div className="bg-white shadow-md rounded-lg overflow-hidden w-64">
+    <div
+      onClick={handleRedirectToProductDetail}
+      className="bg-white shadow-md rounded-lg cursor-pointer overflow-hidden w-64"
+    >
       <img
         src={singleProduct.image}
         alt={singleProduct.name}
@@ -23,7 +30,7 @@ const ProductCard = ({ singleProduct }) => {
         </p>
         <div className="flex justify-between items-center gap-2 mt-2">
           <span className="text-lg font-semibold">${singleProduct.price}</span>
-          {<StarComponent starValue ={rating} />}
+          {<StarComponent starValue={rating} />}
         </div>
         <div className="flex items-center mt-2">{}</div>
         <div className="flex items-center justify-between mt-4">
